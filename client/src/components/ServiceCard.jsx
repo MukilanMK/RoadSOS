@@ -15,15 +15,7 @@ const ServiceCard = ({ service }) => {
       <p className="service-address">{service.address}</p>
       
       <div className="service-actions">
-        {service.phone && service.phone !== "Available on Maps" ? (
-          <a href={`tel:${service.phone}`} className="btn btn-call">
-            📞 Call
-          </a>
-        ) : (
-          <a href={service.maps_uri} target="_blank" rel="noreferrer" className="btn btn-call" style={{background: '#4b5563'}}>
-            Info
-          </a>
-        )}
+
         <a href={service.maps_uri} target="_blank" rel="noreferrer" className="btn btn-nav">
           🗺️ Navigate
         </a>

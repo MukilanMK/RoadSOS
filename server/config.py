@@ -10,3 +10,4 @@ class Config:
     CACHE_EXPIRY_HOURS = int(os.getenv('CACHE_EXPIRY_HOURS', 24))
     DEBUG = os.getenv('FLASK_DEBUG', 'False').lower() in ('true', '1', 't')
     ENV = os.getenv('FLASK_ENV', 'production')
+    OLA_MAPS_API_KEY = os.getenv('OLA_MAPS_API_KEY', 'mock_ola_maps_key')

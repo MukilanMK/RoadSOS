@@ -1,5 +1,5 @@
 from models.placeModel import get_places_within_radius, upsert_places
-from utils.overpassApi import fetch_nearby_from_overpass, calculate_distance
+from utils.olaMapsApi import fetch_nearby_from_ola, calculate_distance
 from config import Config
 from datetime import datetime, timezone
 import logging
@@ -20,9 +20,9 @@ def get_nearby_services(lat, lng, radius_km, service_types):
             if count < 2:
                 types_to_fetch.append(s_type)
                 
-        # 2. Call Overpass API if needed
+        # 2. Call Ola Maps API if needed
         if types_to_fetch:
-            new_places = fetch_nearby_from_overpass(lat, lng, radius_km, types_to_fetch)
+            new_places = fetch_nearby_from_ola(lat, lng, radius_km, types_to_fetch)
             if new_places:
                 upsert_places(new_places)
                 # Re-fetch from DB to include newly inserted data
@@ -39,6 +39,8 @@ def get_nearby_services(lat, lng, radius_km, service_types):
             if '_id' in p:
                 del p['_id']
                 
+            # Override maps_uri to ensure a valid Google Maps navigation link regardless of cache
+            p['maps_uri'] = f"https://www.google.com/maps/dir/?api=1&destination={p_lat},{p_lng}"
             p['distance_km'] = dist
             p['cached'] = True # Hardcoded for now
             results.append(p)
