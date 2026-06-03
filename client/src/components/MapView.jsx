@@ -33,17 +33,17 @@ const MapUpdater = ({ center }) => {
 
 const MapView = ({ location, services }) => {
   if (!location) {
-    return <div className="map-container glass-panel" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Locating you...</div>;
+    return <div className="map-container" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Locating you...</div>;
   }
 
   const center = [location.lat, location.lng];
 
   return (
-    <div className="map-container glass-panel">
+    <div className="map-container">
       <MapContainer center={center} zoom={14} scrollWheelZoom={false}>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
         <MapUpdater center={center} />
         

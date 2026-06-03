@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useLocation from './hooks/useLocation';
 import useNearbyServices from './hooks/useNearbyServices';
 import OfflineBanner from './components/OfflineBanner';
@@ -15,36 +15,54 @@ function App() {
   return (
     <>
       <OfflineBanner />
+      
       <div className="app-container">
-        <header className="app-header">
-          <h1>ROADSoS</h1>
-          <p>Instant Emergency Response on Indian Roads</p>
-        </header>
+        {/* Floating Header */}
+        <div className="floating-header">
+          <header className="app-header">
+            <h1>ROADSoS</h1>
+          </header>
+          <EmergencyBanner />
+        </div>
 
-        <EmergencyBanner />
-
-        <SOSButton location={location} />
-
-        {locError && (
-          <div className="loading" style={{color: 'var(--primary)'}}>
-            <p>{locError}</p>
-            <button className="btn btn-call" style={{marginTop: '1rem', background: 'var(--bg-card)'}} onClick={requestLocation}>
-              Retry Location
+        {/* Map Background Layer */}
+        {locLoading ? (
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p style={{ color: 'var(--text-muted)' }}>Acquiring exact location...</p>
+          </div>
+        ) : locError ? (
+          <div className="error-state">
+            <p style={{ color: 'var(--primary)', marginBottom: '1rem' }}>{locError}</p>
+            <button className="btn btn-nav" onClick={requestLocation}>
+              Retry GPS
             </button>
           </div>
-        )}
-
-        {locLoading ? (
-          <div className="loading">Acquiring GPS location...</div>
         ) : (
           location && (
             <>
-              <MapView location={location} services={services} />
-              <ServiceList 
-                services={services} 
-                loading={servicesLoading} 
-                error={servicesError} 
-              />
+              <div className="map-wrapper">
+                <MapView location={location} services={services} />
+              </div>
+
+              {/* Bottom Sheet Layer */}
+              <div className="bottom-sheet">
+                <div className="sos-trigger-container">
+                  <SOSButton location={location} />
+                </div>
+                
+                <div className="sheet-header">
+                  <h2 className="sheet-title">Nearby Assistance</h2>
+                </div>
+                
+                <div className="sheet-content">
+                  <ServiceList 
+                    services={services} 
+                    loading={servicesLoading} 
+                    error={servicesError} 
+                  />
+                </div>
+              </div>
             </>
           )
         )}

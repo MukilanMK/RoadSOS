@@ -20,11 +20,9 @@ const SOSButton = ({ location }) => {
   };
 
   return (
-    <div className="sos-container">
-      <button className="sos-btn" onClick={handleSOS}>
-        SOS
-      </button>
-    </div>
+    <button className="sos-btn" onClick={handleSOS}>
+      SOS
+    </button>
   );
 };
 

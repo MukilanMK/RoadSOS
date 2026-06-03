@@ -11,9 +11,7 @@ const ServiceList = ({ services, loading, error }) => {
   );
 
   return (
-    <div className="services-section">
-      <h2>Nearby Services</h2>
-      
+    <>
       <div className="filters">
         {FILTERS.map(filter => (
           <button 
@@ -26,20 +24,20 @@ const ServiceList = ({ services, loading, error }) => {
         ))}
       </div>
 
-      {loading && <div className="loading">Fetching nearby services...</div>}
+      {loading && <div className="loading" style={{textAlign: 'center', padding: '2rem'}}>Fetching nearby services...</div>}
       
-      {error && <div className="loading" style={{color: 'var(--primary)'}}>{error}</div>}
+      {error && <div className="loading" style={{color: 'var(--primary)', textAlign: 'center', padding: '2rem'}}>{error}</div>}
 
       <div className="service-list">
         {!loading && filteredServices.length === 0 && !error ? (
-          <div className="loading">No services found nearby.</div>
+          <div className="loading" style={{textAlign: 'center', padding: '2rem'}}>No services found nearby.</div>
         ) : (
           filteredServices.map(service => (
             <ServiceCard key={service.place_id} service={service} />
           ))
         )}
       </div>
-    </div>
+    </>
   );
 };
 
