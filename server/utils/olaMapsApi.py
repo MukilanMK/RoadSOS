@@ -20,7 +20,6 @@ def fetch_nearby_from_ola(lat, lng, radius_km, service_types):
     type_mapping = {
         'hospital': 'hospital',
         'police': 'police',
-        'ambulance': 'ambulance',
         'towing': 'car_repair',
         'puncture': 'car_repair',
         'showroom': 'car_dealer'
