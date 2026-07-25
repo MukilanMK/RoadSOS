@@ -272,6 +272,11 @@ h1, h2, h3, h4, h5, h6, .outfit {
   overflow-x: auto;
   padding-bottom: 0.5rem;
   scrollbar-width: none;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-sheet);
 }
 .filters::-webkit-scrollbar { display: none; }
 
@@ -437,4 +442,182 @@ h1, h2, h3, h4, h5, h6, .outfit {
   left: 0;
   right: 0;
   z-index: 100;
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border: 1px solid var(--glass-border);
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-form input, .auth-form select, .add-email-form input {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-light);
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+.error-message {
+  color: var(--primary);
+  background: rgba(255, 46, 99, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.account-icon-btn {
+  background: rgba(255, 46, 99, 0.1);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(255, 46, 99, 0.2);
+}
+
+.account-icon-btn:hover {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+.floating-account-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+}
+
+.account-details p {
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+}
+.account-details strong {
+  color: var(--text-light);
+}
+
+.distress-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.distress-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.distress-list {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+
+.distress-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.add-email-form {
+  display: flex;
+  gap: 0.5rem;
+}
+.add-email-form input {
+  flex: 1;
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-logout {
+  margin-top: 2rem;
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  color: var(--text-light);
 }

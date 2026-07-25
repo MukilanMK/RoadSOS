@@ -6,7 +6,7 @@ import useOfflineStatus from './useOfflineStatus';
 
 const CACHE_DISTANCE_THRESHOLD = import.meta.env.VITE_MAX_CACHE_DISTANCE || 5;
 
-const useNearbyServices = (location) => {
+const useNearbyServices = (location, radius = 25) => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -44,7 +44,7 @@ const useNearbyServices = (location) => {
 
       if (shouldFetch) {
         const response = await axiosInstance.get('/nearby', {
-          params: { lat: location.lat, lng: location.lng, radius: import.meta.env.VITE_DEFAULT_SEARCH_RADIUS || 25 }
+          params: { lat: location.lat, lng: location.lng, radius: radius }
         });
         
         if (response.data.success) {
@@ -80,11 +80,11 @@ const useNearbyServices = (location) => {
     } finally {
       setLoading(false);
     }
-  }, [location, isOffline]);
+  }, [location, isOffline, radius]);
 
   useEffect(() => {
     fetchServices();
-  }, [fetchServices]);
+  }, [fetchServices, radius]);
 
   return { services, loading, error, refetch: () => fetchServices(true) };
 };

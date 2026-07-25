@@ -14,8 +14,13 @@ def create_app():
     # Initialize Database
     init_db(app.config['MONGO_URI'])
 
-    # Register Blueprints
+    from routes.places import places_bp
+    from routes.auth import auth_bp
+    from routes.sos import sos_bp
+    
     app.register_blueprint(places_bp, url_prefix='/api')
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(sos_bp, url_prefix='/api/sos')
 
     @app.route('/health')
     def health_check():

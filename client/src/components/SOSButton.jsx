@@ -1,10 +1,27 @@
 import React from 'react';
 
 const SOSButton = ({ location }) => {
-  const handleSOS = () => {
+  const handleSOS = async () => {
     if (!location) {
       alert("Location not detected yet. Please wait or ensure GPS is enabled.");
       return;
+    }
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        await fetch(`${apiUrl}/sos/trigger`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ lat: location.lat, lng: location.lng })
+        });
+      } catch (err) {
+        console.error("Failed to trigger SOS emails", err);
+      }
     }
 
     const mapsLink = `https://maps.google.com/?q=${location.lat},${location.lng}`;

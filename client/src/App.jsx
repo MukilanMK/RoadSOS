@@ -6,21 +6,74 @@ import EmergencyBanner from './components/EmergencyBanner';
 import SOSButton from './components/SOSButton';
 import MapView from './components/MapView';
 import ServiceList from './components/ServiceList';
+import AuthModal from './components/AuthModal';
+import AccountTab from './components/AccountTab';
 import './index.css';
 
 function App() {
   const { location, error: locError, loading: locLoading, requestLocation } = useLocation();
-  const { services, loading: servicesLoading, error: servicesError } = useNearbyServices(location);
+  const [radius, setRadius] = useState(25);
+  const { services, loading: servicesLoading, error: servicesError } = useNearbyServices(location, radius);
+  
+  const [showAuth, setShowAuth] = useState(false);
+  const [showAccount, setShowAccount] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Check if user is logged in on load
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // In a real app, you'd validate the token or fetch user info here
+      setUser({ loggedIn: true });
+    }
+  }, []);
+
+  const handleAccountClick = () => {
+    if (user) {
+      setShowAccount(true);
+    } else {
+      setShowAuth(true);
+    }
+  };
 
   return (
     <>
       <OfflineBanner />
       
+      {/* Top Right Account Icon */}
+      <button className="account-icon-btn floating-account-btn" onClick={handleAccountClick} title="Account">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </button>
+
+      {showAuth && (
+        <AuthModal 
+          onClose={() => setShowAuth(false)} 
+          onLoginSuccess={(userData) => {
+            setUser(userData);
+            setShowAuth(false);
+          }} 
+        />
+      )}
+      
+      {showAccount && (
+        <AccountTab 
+          onClose={() => setShowAccount(false)} 
+          onLogout={() => {
+            setUser(null);
+            setShowAccount(false);
+          }}
+          radius={radius}
+          setRadius={setRadius}
+        />
+      )}
+
       <div className="app-container">
         {/* Floating Header */}
         <div className="floating-header">
           <header className="app-header">
-            <h1>ROADSoS</h1>
+            <h1 style={{ margin: 0 }}>ROADSoS</h1>
           </header>
           <EmergencyBanner />
         </div>

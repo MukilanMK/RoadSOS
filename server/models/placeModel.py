@@ -65,3 +65,6 @@ def upsert_places(places_data):
             {"$set": place},
             upsert=True
         )
+
+def get_db():
+    return db
